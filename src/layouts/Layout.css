@@ -1,0 +1,13 @@
+.main-container {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.active {
+  background: red;
+}
+
+.content-section {
+  display: flex;
+  min-height: 100vh;
+}
