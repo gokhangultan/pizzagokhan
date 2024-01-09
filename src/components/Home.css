@@ -1,6 +1,45 @@
 .main-content {
-    background-image: url('../assets/mvp-banner.png');
-    width: 100%;
+  background-image: url('../assets/mvp-banner.png');
+  width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.home-title-h2 {
+  color: white;
+  font-family: Roboto Condensed;
+  font-size: 86px;
+  font-weight: 300;
+  line-height: 92px;
+  letter-spacing: 1.5px;
+  text-align: center;
+  margin-bottom: 20px;
+
+}
+
+.home-logo {
+  margin-top: 115px;
+}
+
+button {
+  background-color: #FDC913;
+  border: none;
+  outline: none;
+  color: #292929;
+  font-family: Barlow;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 56px;
+  letter-spacing: 0em;
+  text-align: center;
+  border-radius: 50px;
+  width: 193px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+button:hover {
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .25);
+  background-color: #e4b304;
+
 }

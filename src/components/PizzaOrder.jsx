@@ -15,7 +15,6 @@ const availableToppings = [
   'Ton Balığı',
   'Peynir Sos',
   'Barbekü Sos',
-  'Ranch Sos',
 ];
 
 const PizzaOrder = () => {
