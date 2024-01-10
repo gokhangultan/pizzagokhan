@@ -6,18 +6,25 @@ import { Link } from 'react-router-dom'
 import PizzaOrder from './PizzaOrder';
 
 const initialForm = {
-  fullName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  birthDate: '',
+  boyutSec: '',
+  hamurSec: '',
+  siparisNotu: '',
+  availableToppings: []
 };
 
-
-export default function Siparis() {
+const siparisForm = {
+  boyutSec: '',
+  hamurSec: '',
+  siparisNotu: '',
+  availableToppings: []
+  
+};
+console.log(siparisForm);
+export default function Siparis(props) {
   const [formData, setFormData] = useState(initialForm);
   const [users, setUsers] = useState([]);
   const [count, setCount] = useState(0)
+  const secimler = props.calculateTotal;
 
   function handleChange(event) {
     let { name, value } = event.target;
@@ -48,7 +55,7 @@ export default function Siparis() {
             <li>(200)</li>
           </ul>
         </h3>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        <p className='pizzaInfo'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
         <Form onSubmit={onsubmit}>
          <div className='pizzaBoyut'>
           <FormGroup>
@@ -129,7 +136,7 @@ export default function Siparis() {
                 <h3>Sipariş Toplamı</h3>
                 <div className="value-group">
                   <div className="tag">Seçimler</div>
-                  <div className="value">25.00₺</div>
+                  <div className="value">{secimler}₺</div>
                 </div>
                 <div className="value-group">
                   <div className="tag">Toplam</div>

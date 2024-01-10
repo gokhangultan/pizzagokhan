@@ -32,7 +32,15 @@ a {
   text-decoration: inherit;
 }
 
-
+.home-title-h2 {
+  color: white;
+  font-family: Roboto Condensed;
+  font-size: 86px;
+  font-weight: 300;
+  line-height: 92px;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
 
 body {
   margin: 0px;
@@ -197,4 +205,9 @@ text-align: right;
   border-radius: 0 0 6px 6px;
   display: block;
   width: 100%;
+}
+
+.pizzaInfo {
+  display: flex;
+  justify-content: left;
 }

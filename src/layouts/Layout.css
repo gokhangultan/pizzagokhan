@@ -4,8 +4,7 @@
 }
 
 .active {
-  background: red;
-}
+  font-weight: bold;}
 
 .content-section {
   display: flex;
