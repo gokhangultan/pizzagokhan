@@ -127,7 +127,8 @@ export default function Siparis(props) {
           <FormGroup>
             <h2>Ek Malzemeler</h2>
             <p>En Fazla 10 malzeme seçebilirsiniz. Her seçim 5₺ </p>
-            <PizzaOrder selections={selections} />
+            <PizzaOrder selections={selections} secimler={secimler}/>
+            {console.log(secimler)}
           </FormGroup>
           <br /><br />
           <FormGroup class="borderSiparis">
