@@ -17,9 +17,11 @@ const availableToppings = [
   'Barbekü Sos',
 ];
 
-const PizzaOrder = () => {
-  const [selectedToppings, setSelectedToppings] = useState([]);
+const PizzaOrder = (props) => {
+  const [selectedToppings, setSelectedToppings] = useState(props.selections[0]);
   const toppingPrice = 5;
+  const secimler = props.calculateTotal;
+
 
   const handleToppingToggle = (topping) => {
     if (selectedToppings.includes(topping)) {
@@ -31,6 +33,7 @@ const PizzaOrder = () => {
       // Malzeme seçme sınırına ulaşılmamışsa ekle
       setSelectedToppings((prevToppings) => [...prevToppings, topping]);
     }
+    props.selections[1](selectedToppings);
   };
 
   const calculateTotal = () => {

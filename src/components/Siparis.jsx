@@ -2,8 +2,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import Header3 from '../layouts/Header';
 import { Card, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import PizzaOrder from './PizzaOrder';
+
 
 const initialForm = {
   boyutSec: '',
@@ -17,33 +18,54 @@ const siparisForm = {
   hamurSec: '',
   siparisNotu: '',
   availableToppings: []
-  
 };
-console.log(siparisForm);
+
+
 export default function Siparis(props) {
+  const history = useHistory();
   const [formData, setFormData] = useState(initialForm);
   const [users, setUsers] = useState([]);
   const [count, setCount] = useState(0)
+  const selections = useState([])
   const secimler = props.calculateTotal;
 
   function handleChange(event) {
     let { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(f => ({ ...f, [name]: value }));
   }
-  function onClick(event) {
-    event.preventDefault();
-  }
+  
   function handleSubmit(event) {
     //3.1.1. default davranış engelle
     event.preventDefault();
+    if (selections[0].length < 4) {
+      alert('En az 4 malzeme seçmelisiniz.');
+      return;
+    }
+    if (count < 1) {
+      alert('Pizza adedi en az 1 olmalıdır.');
+      return;
+    }
+    if (formData.boyutSec  == '') {
+      alert('Pizza boyutu seçmelisiniz.');
+      return;
+    }
+    
     //3.1.2. business logic uygula.
+    const formData2 = { ...formData, count, availableToppings: selections[0] };
     axios
-      .post('https://reqres.in/api/users', formData)
+      .post('https://reqres.in/api/users', formData2)
       .then((res) => setUsers([...users, res.data]))
       .catch((err) => console.warn(err));
     //3.1.3. formu sıfırla -Yöntem 2: controlled
     setFormData(initialForm);
+    history.push(`/SiparisOnay`);
+    console.log(formData2);
   }
+  function setOrder(e, i) {
+    e.preventDefault();
+    setCount((count) => count + i);
+  }
+  console.log(siparisForm);
   return <div><Header3 />
     <div className="container">
       <Card>
@@ -56,7 +78,7 @@ export default function Siparis(props) {
           </ul>
         </h3>
         <p className='pizzaInfo'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-        <Form onSubmit={onsubmit}>
+        <Form onSubmit={handleSubmit}>
          <div className='pizzaBoyut'>
           <FormGroup>
             <p>Boyut seç *</p>
@@ -64,7 +86,7 @@ export default function Siparis(props) {
               id="kucukBoy"
               name="boyutSec"
               type="radio"
-              value={formData.kucukBoy}
+              value="small"
               onChange={handleChange}
             />
             <Label for="boyutSec">Küçük</Label>
@@ -73,7 +95,7 @@ export default function Siparis(props) {
               id="ortaBoy"
               name="boyutSec"
               type="radio"
-              value={formData.ortaBoy}
+              value="medium"
               onChange={handleChange}
             />
             <Label for="boyutSec">Orta</Label>
@@ -82,7 +104,7 @@ export default function Siparis(props) {
               id="buyukBoy"
               name="boyutSec"
               type="radio"
-              value={formData.buyukBoy}
+              value="large"
               onChange={handleChange}
             />
             <Label for="boyutSec">Büyük</Label>
@@ -105,7 +127,7 @@ export default function Siparis(props) {
           <FormGroup>
             <h2>Ek Malzemeler</h2>
             <p>En Fazla 10 malzeme seçebilirsiniz. Her seçim 5₺ </p>
-            <PizzaOrder />
+            <PizzaOrder selections={selections} />
           </FormGroup>
           <br /><br />
           <FormGroup class="borderSiparis">
@@ -121,13 +143,13 @@ export default function Siparis(props) {
           </FormGroup>
           <div className="order-confirm">
             <div className="complex-buttons">
-              <button onClick={() => setCount((count) => count - 1)}>
+              <button onClick={(e) => setOrder(e, -1)}>
                 -
               </button>
               <button disabled>
                 {count}
               </button>
-              <button onClick={() => setCount((count) => count + 1)}>
+              <button onClick={(e) => setOrder(e, 1)}>
                 +
               </button>
             </div>
@@ -135,15 +157,16 @@ export default function Siparis(props) {
               <div className="summary-card">
                 <h3>Sipariş Toplamı</h3>
                 <div className="value-group">
+              
                   <div className="tag">Seçimler</div>
                   <div className="value">{secimler}₺</div>
                 </div>
                 <div className="value-group">
                   <div className="tag">Toplam</div>
-                  <div className="value">110.50t</div>
+                  <div className="value">{count * 85.50}</div>
                 </div>
               </div>
-              <Link to="/siparisonay"><Button color="primary">SİPARİŞ VER</Button></Link>
+              <Button color="primary" type='submit'>SİPARİŞ VER</Button>
             </div>
           </div>
         </Form>
