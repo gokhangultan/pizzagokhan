@@ -18,27 +18,22 @@ const availableToppings = [
 ];
 
 const PizzaOrder = (props) => {
-  const [selectedToppings, setSelectedToppings] = useState(props.selections[0]);
-  const toppingPrice = 5;
-  const secimler = props.calculateTotal;
+  const {selections, setSelections} = props;
 
 
   const handleToppingToggle = (topping) => {
-    if (selectedToppings.includes(topping)) {
+    if (selections.includes(topping)) {
       // Tıklandığında malzeme zaten seçili ise kaldır
-      setSelectedToppings((prevToppings) =>
+      setSelections((prevToppings) =>
         prevToppings.filter((item) => item !== topping)
       );
-    } else if (selectedToppings.length < 10) {
+    } else if (selections.length < 10) {
       // Malzeme seçme sınırına ulaşılmamışsa ekle
-      setSelectedToppings((prevToppings) => [...prevToppings, topping]);
+      setSelections((prevToppings) => [...prevToppings, topping]);
     }
-    props.selections[1](selectedToppings);
   };
 
-  const calculateTotal = () => {
-    return selectedToppings.length * toppingPrice;
-  };
+  
 
   return (
     <div>
@@ -50,7 +45,7 @@ const PizzaOrder = (props) => {
             <label>
               <input
                 type="checkbox"
-                checked={selectedToppings.includes(topping)}
+                checked={selections.includes(topping)}
                 onChange={() => handleToppingToggle(topping)}
               />
               {topping}
@@ -58,7 +53,6 @@ const PizzaOrder = (props) => {
           </li>
         ))}
       </ul>
-      <h3>Sipariş Toplamı: {calculateTotal()} TL</h3>
     </div>
   );
 };

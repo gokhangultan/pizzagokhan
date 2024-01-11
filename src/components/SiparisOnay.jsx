@@ -11,13 +11,50 @@ letter-spacing: 1.5px;
 text-align: center;
 padding-top: 100px;
 `;
+const siparisNotu = styled.table`
+color: white;
+`;
 
 
-export default function SiparisOnay() {
+export default function SiparisOnay(props) {
+  const {siparisOzeti} = props;
+const secimler = siparisOzeti.availableToppings;
+  console.log(siparisOzeti);
   return (
     <div className='siparisOnay'>
       <img src={logo} className='home-logo' />
       <Text className='home-title-h2'>TEBRİKLER! <br />SİPARİŞİNİZ ALINDI!</Text>
+      <siparisNotu className>
+  <tr>
+    <th>Boyut:</th>
+    <th>{siparisOzeti.boyutSec}</th>
+  </tr>
+  <tr>
+    <th>Hamur:</th>
+    <th>{siparisOzeti.hamurSec}</th>
+  </tr>
+  <tr>
+    <th>Ek Malzemeler:</th>
+    <th>{siparisOzeti.availableToppings}</th>
+  </tr>
+  
+  
+</siparisNotu>
+<siparisNotu>
+  <tr>
+    <th>Sipariş Toplamı</th>
+  </tr>
+  <tr>
+    <th>Seçimler</th>
+    <th>{siparisOzeti.count*5}</th>
+  </tr>
+ 
+  <tr>
+    <th>Toplam</th>
+    <th>{siparisOzeti.count*85.50}</th>
+  </tr>
+  
+</siparisNotu>
     </div>
   );
 }

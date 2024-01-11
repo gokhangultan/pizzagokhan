@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect  } from 'react';
 import axios from 'axios';
 import Header3 from '../layouts/Header';
 import { Card, Form, FormGroup, Label, Input, Button } from 'reactstrap';
@@ -17,7 +17,8 @@ const siparisForm = {
   boyutSec: '',
   hamurSec: '',
   siparisNotu: '',
-  availableToppings: []
+  availableToppings: [],
+  count: '', 
 };
 
 
@@ -25,9 +26,17 @@ export default function Siparis(props) {
   const history = useHistory();
   const [formData, setFormData] = useState(initialForm);
   const [users, setUsers] = useState([]);
-  const [count, setCount] = useState(0)
-  const selections = useState([])
-  const secimler = props.calculateTotal;
+  const [totalPrice, settotalPrice] = useState(0);
+  const [count, setCount] = useState(1)
+  const [selections, setSelections] = useState([])
+  const toppingPrice = 5;
+
+
+  useEffect(() => {
+    // Update the document title using the browser API
+    settotalPrice (selections.length * toppingPrice + count*85,50);
+  },[selections,count]);
+ 
 
   function handleChange(event) {
     let { name, value } = event.target;
@@ -51,10 +60,10 @@ export default function Siparis(props) {
     }
     
     //3.1.2. business logic uygula.
-    const formData2 = { ...formData, count, availableToppings: selections[0] };
+    const formData2 = { ...formData, count, availableToppings: selections };
     axios
       .post('https://reqres.in/api/users', formData2)
-      .then((res) => setUsers([...users, res.data]))
+      .then((res) => props.setCurrentOrder(res.data))
       .catch((err) => console.warn(err));
     //3.1.3. formu sıfırla -Yöntem 2: controlled
     setFormData(initialForm);
@@ -127,11 +136,10 @@ export default function Siparis(props) {
           <FormGroup>
             <h2>Ek Malzemeler</h2>
             <p>En Fazla 10 malzeme seçebilirsiniz. Her seçim 5₺ </p>
-            <PizzaOrder selections={selections} secimler={secimler}/>
-            {console.log(secimler)}
+            <PizzaOrder selections={selections} setSelections={setSelections}/>
           </FormGroup>
           <br /><br />
-          <FormGroup class="borderSiparis">
+          <FormGroup className="borderSiparis">
             <Label for="siparisNotu">Sipariş Notu</Label><br />
             <Input
               id="siparisNotu"
@@ -160,11 +168,11 @@ export default function Siparis(props) {
                 <div className="value-group">
               
                   <div className="tag">Seçimler</div>
-                  <div className="value">{secimler}₺</div>
+                  <div className="value">{selections.length * toppingPrice}₺</div>
                 </div>
                 <div className="value-group">
                   <div className="tag">Toplam</div>
-                  <div className="value">{count * 85.50}</div>
+                  <div className="value">{totalPrice}</div>
                 </div>
               </div>
               <Button color="primary" type='submit'>SİPARİŞ VER</Button>
