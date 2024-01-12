@@ -46,12 +46,12 @@ const secimler = siparisOzeti.availableToppings;
   </tr>
   <tr>
     <th>Seçimler</th>
-    <th>{siparisOzeti.count*5}</th>
+    <th>{siparisOzeti.availableToppings.length*5}</th>
   </tr>
  
   <tr>
     <th>Toplam</th>
-    <th>{siparisOzeti.count*85.50}</th>
+    <th>{siparisOzeti.count*85.50+siparisOzeti.availableToppings.length*5}</th>
   </tr>
   
 </siparisNotu>
