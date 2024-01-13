@@ -27,7 +27,7 @@ export default function Siparis(props) {
   const [formData, setFormData] = useState(initialForm);
   const [users, setUsers] = useState([]);
   const [totalPrice, settotalPrice] = useState(0);
-  const [count, setCount] = useState(1)
+  const [count, setCount] = useState(0)
   const [selections, setSelections] = useState([])
   const toppingPrice = 5;
 
@@ -91,6 +91,7 @@ export default function Siparis(props) {
          <div className='pizzaBoyut'>
           <FormGroup>
             <p>Boyut seç *</p>
+            {formData.boyutSec  == '' && <p>Pizza Boyutu Seçmelisiniz.</p>}
             <Input
               id="kucukBoy"
               name="boyutSec"
@@ -120,6 +121,8 @@ export default function Siparis(props) {
           </FormGroup>
                     <FormGroup>
             <Label for="hamurSec">Hamur Seç *</Label> <br />
+            {formData.hamurSec  == '' && <p>Hamur Tipi Seçmelisiniz.</p>}
+
             <Input
               id="hamurSec"
               name="hamurSec"
@@ -137,6 +140,8 @@ export default function Siparis(props) {
             <h2>Ek Malzemeler</h2>
             <p>En Fazla 10 malzeme seçebilirsiniz. Her seçim 5₺ </p>
             <PizzaOrder selections={selections} setSelections={setSelections}/>
+            {selections.length < 4 && <p>En az 4 malzeme seçmelisiniz.</p>}
+  {selections.length > 10 && <p>En fazla 10 malzeme seçebilirsiniz. Her seçim 5₺</p>}
           </FormGroup>
           <br /><br />
           <FormGroup className="borderSiparis">
@@ -149,7 +154,9 @@ export default function Siparis(props) {
               value={formData.siparisNotu}
               onChange={handleChange}
             />
+            
           </FormGroup>
+          {count < 1 && <p>Pizza Adedi Giriniz.</p>}
           <div className="order-confirm">
             <div className="complex-buttons">
               <button onClick={(e) => setOrder(e, -1)}>
